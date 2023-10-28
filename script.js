@@ -5,35 +5,32 @@ function readURL(input) {
     var reader = new FileReader();
 
     reader.onload = function (e) {
-      $('.image-upload-wrap').hide();
+      $('.image-upload-wrap').hide(); // 이미지 업로드 영역 숨기기
 
-      $('.file-upload-image').attr('src', e.target.result);
-      $('.file-upload-content').show();
+      $('.file-upload-image').attr('src', e.target.result); // 파일 업로드 이미지 설정
+      $('.file-upload-content').show(); // 파일 업로드 콘텐츠 표시
 
-      $('.image-title').html(input.files[0].name);
+      $('.image-title').html(input.files[0].name); // 이미지 제목 설정
     };
 
-    reader.readAsDataURL(input.files[0]);
-    isImageUploaded = true;
+    reader.readAsDataURL(input.files[0]); // 데이터 URL로 변환하여 이미지 읽기
+    isImageUploaded = true; // 이미지 업로드 여부 설정
   } else {
-    removeUpload();
-    isImageUploaded = false;
+    removeUpload(); // 업로드 제거
+    isImageUploaded = false; // 이미지 업로드 여부 설정
   }
 }
 
 function removeUpload() {
-  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
-  $('.file-upload-content').hide();
-  $('.image-upload-wrap').show();
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone()); // 파일 업로드 입력 재설정
+  $('.file-upload-content').hide(); // 파일 업로드 콘텐츠 숨기기
+  $('.image-upload-wrap').show(); // 이미지 업로드 영역 표시
 }
 
 const URL = 'https://teachablemachine.withgoogle.com/models/HsPtWtP0z/';
 let model, labelContainer, maxPredictions;
 
 async function init() {
-  // const startButton = document.getElementById('start-button');
-  // startButton.disabled = true;
-  // startButton.innerHTML = 'Loading...';
   const predictButton = document.getElementById("predict-button");
   predictButton.disabled = true;
   predictButton.innerHTML = '예측 모델 불러오는 중';
@@ -42,7 +39,7 @@ async function init() {
   const metadataURL = URL + 'metadata.json';
 
   try {
-    model = await tmImage.load(modelURL, metadataURL);
+    model = await tmImage.load(modelURL, metadataURL); // 모델 및 메타데이터 로드
     maxPredictions = model.getTotalClasses();
 
     labelContainer = document.getElementById('label-container');
@@ -52,10 +49,8 @@ async function init() {
     
     predictButton.disabled = false;
     predictButton.innerHTML = '예측하기';
-    // startButton.style.display = 'none';
   } catch (error) {
-    console.error('Error loading model:', error);
-    // startButton.innerHTML = 'Failed';
+    console.error('모델 로딩 오류:', error);
   }
 }
 
@@ -66,7 +61,7 @@ function predict() {
   }
 
   const predictButton = document.getElementById('predict-button');
-  predictButton.innerHTML = 'Predicting...';
+  predictButton.innerHTML = '예측 중...';
 
   var originalImage = document.getElementById('face-image');
 
@@ -83,7 +78,7 @@ function predict() {
       }
 
       const maxClassLabel = prediction[maxIndex].className;
-      const probabilityPercentage = maxProbability.toFixed(2) * 100;
+      const probabilityPercentage = (maxProbability * 100).toFixed(2);
 
       labelContainer.innerHTML = `${probabilityPercentage}% ${maxClassLabel} 선수와 닮았습니다!`;
 
@@ -125,5 +120,5 @@ function makeGray(originalImage, grayImage) {
 }
 
 $(function() {
-init();
-});
+  init(); // 초기화 함수 호출
+}); 
