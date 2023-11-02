@@ -46,7 +46,7 @@ async function init() {
     for (let i = 0; i < maxPredictions; i++) {
       labelContainer.appendChild(document.createElement('div'));
     }
-    
+
     predictButton.disabled = false;
     predictButton.innerHTML = '예측하기';
   } catch (error) {
@@ -87,7 +87,7 @@ function predict() {
           $('.result-box').slideDown(500);
         }, 500);
       }); 
-      
+
       const resultPageUrl = `result.html?result=${maxClassLabel}&probability=${probabilityPercentage}`;
       window.open(resultPageUrl, '_blank');
 
